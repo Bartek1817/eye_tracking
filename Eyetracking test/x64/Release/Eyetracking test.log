@@ -1,0 +1,27 @@
+﻿  findEyeCenter.cpp
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\constants.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\constants.h(26): warning C4305: 'initializing': truncation from 'double' to 'float'
+findEyeCenter.cpp(18): warning C4068: unknown pragma
+findEyeCenter.cpp(46): warning C4068: unknown pragma
+findEyeCenter.cpp(50): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+findEyeCenter.cpp(51): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+findEyeCenter.cpp(56): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+findEyeCenter.cpp(76): warning C4068: unknown pragma
+findEyeCenter.cpp(206): warning C4068: unknown pragma
+  main.cpp
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\constants.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\constants.h(26): warning C4305: 'initializing': truncation from 'double' to 'float'
+main.cpp(79): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+main.cpp(136): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+main.cpp(137): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+main.cpp(138): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+main.cpp(139): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+main.cpp(156): warning C4473: 'fprintf' : not enough arguments passed for format string
+  main.cpp(156): note: placeholders and their parameters expect 7 variadic arguments, but 6 were provided
+  main.cpp(156): note: the missing variadic argument 7 is required by format string '%d'
+  Generating code
+  53 of 516 functions (10.3%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    14 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Eyetracking test.vcxproj -> d:\users\bartek\documents\visual studio 2015\Projects\Eyetracking test\x64\Release\Eyetracking test.exe

@@ -1,0 +1,27 @@
+﻿  main.cpp
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\constants.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\constants.h(26): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\main.cpp(82): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\main.cpp(133): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\main.cpp(134): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\main.cpp(135): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\main.cpp(136): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  helpers.cpp
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\constants.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\constants.h(26): warning C4305: 'initializing': truncation from 'double' to 'float'
+  findEyeCorner.cpp
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\constants.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\constants.h(26): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\findeyecorner.cpp(114): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  findEyeCenter.cpp
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\constants.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\constants.h(26): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\findeyecenter.cpp(17): warning C4068: unknown pragma
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\findeyecenter.cpp(45): warning C4068: unknown pragma
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\findeyecenter.cpp(49): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\findeyecenter.cpp(50): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\findeyecenter.cpp(55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\findeyecenter.cpp(75): warning C4068: unknown pragma
+d:\users\bartek\documents\visual studio 2015\projects\eyetracking test\eyetracking test\findeyecenter.cpp(195): warning C4068: unknown pragma
+  Generating Code...
+  Eyetracking test.vcxproj -> d:\users\bartek\documents\visual studio 2015\Projects\Eyetracking test\x64\Debug\Eyetracking test.exe
