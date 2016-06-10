@@ -27,3 +27,11 @@
 *.exe
 *.out
 *.app
+
+# Other
+*.sdf
+*.sln
+
+# Directories
+.vs/
+x64/
