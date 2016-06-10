@@ -2,8 +2,6 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 
-//#include <mgl2/mgl.h>
-
 #include <iostream>
 #include <queue>
 #include <stdio.h>
@@ -14,36 +12,6 @@
 
 // Pre-declarations
 cv::Mat floodKillEdges(cv::Mat &mat);
-
-#pragma mark Visualization
-/*
-template<typename T> mglData *matToData(const cv::Mat &mat) {
-  mglData *data = new mglData(mat.cols,mat.rows);
-  for (int y = 0; y < mat.rows; ++y) {
-	const T *Mr = mat.ptr<T>(y);
-	for (int x = 0; x < mat.cols; ++x) {
-	  data->Put(((mreal)Mr[x]),x,y);
-	}
-  }
-  return data;
-}
-
-void plotVecField(const cv::Mat &gradientX, const cv::Mat &gradientY, const cv::Mat &img) {
-  mglData *xData = matToData<double>(gradientX);
-  mglData *yData = matToData<double>(gradientY);
-  mglData *imgData = matToData<float>(img);
-
-  mglGraph gr(0,gradientX.cols * 20, gradientY.rows * 20);
-  gr.Vect(*xData, *yData);
-  gr.Mesh(*imgData);
-  gr.WriteFrame("vecField.png");
-
-  delete xData;
-  delete yData;
-  delete imgData;
-}*/
-
-#pragma mark Helpers
 
 cv::Point unscalePoint(cv::Point p, cv::Rect origSize) {
 	float ratio = (((float)kFastEyeWidth) / origSize.width);
@@ -113,12 +81,6 @@ struct EyeInfo findEyeCenter(cv::Mat face, cv::Rect eye, std::string debugWindow
 
 	eye_cascade.detectMultiScale(eyeROI, eyes, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(30, 30), cv::Size(50, 50));
 
-	//for (int i = 0; i < eyes.size(); i++)
-		//imshow(debugWindow, eyeROI(eyes[0]));
-
-	// draw eye region
-	//rectangle(face, eye, 1234);
-	//-- Find the gradient
 	cv::Mat gradientX = computeMatXGradient(eyeROI);
 	cv::Mat gradientY = computeMatXGradient(eyeROI.t()).t();
 	//-- Normalize and threshold the gradient
@@ -145,7 +107,6 @@ struct EyeInfo findEyeCenter(cv::Mat face, cv::Rect eye, std::string debugWindow
 			}
 		}
 	}
-	//imshow(debugWindow, gradientX);
 	//-- Create a blurred and inverted image for weighting
 	cv::Mat weight;
 	GaussianBlur(eyeROI, weight, cv::Size(kWeightBlurSize, kWeightBlurSize), 0, 0);
@@ -155,7 +116,6 @@ struct EyeInfo findEyeCenter(cv::Mat face, cv::Rect eye, std::string debugWindow
 			row[x] = (255 - row[x]);
 		}
 	}
-	//imshow(debugWindow,weight);
 	//-- Run the algorithm!
 	cv::Mat outSum = cv::Mat::zeros(eyeROI.rows, eyeROI.cols, CV_64F);
 	// for each possible gradient location
@@ -177,7 +137,6 @@ struct EyeInfo findEyeCenter(cv::Mat face, cv::Rect eye, std::string debugWindow
 	double numGradients = (weight.rows*weight.cols);
 	cv::Mat out;
 	outSum.convertTo(out, CV_32F, 1.0 / numGradients);
-	//imshow(debugWindow,out);
 	//-- Find the maximum point
 	cv::Point maxP;
 	double maxVal;
@@ -185,16 +144,12 @@ struct EyeInfo findEyeCenter(cv::Mat face, cv::Rect eye, std::string debugWindow
 	//-- Flood fill the edges
 	if (kEnablePostProcess) {
 		cv::Mat floodClone;
-		//double floodThresh = computeDynamicThreshold(out, 1.5);
 		double floodThresh = maxVal * kPostProcessThreshold;
 		cv::threshold(out, floodClone, floodThresh, 0.0f, cv::THRESH_TOZERO);
 		if (kPlotVectorField) {
-			//plotVecField(gradientX, gradientY, floodClone);
 			imwrite("eyeFrame.png", eyeROIUnscaled);
 		}
 		cv::Mat mask = floodKillEdges(floodClone);
-		//imshow(debugWindow + " Mask",mask);
-		//imshow(debugWindow,out);
 		// redo max
 		cv::minMaxLoc(out, NULL, &maxVal, NULL, &maxP, mask);
 	}
