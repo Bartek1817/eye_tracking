@@ -30,15 +30,15 @@
 
 # Other
 *.sdf
-*.sln
+#*.sln
 *.pdb
 *.ipdb
 *.iobj
 *.ilk
 *.tlog
 *.log
-*.filters
-*.vcxproj
+#*.filters
+#*.vcxproj
 *.suo
 *.png
 *.txt
