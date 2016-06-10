@@ -8,6 +8,7 @@
 #include <queue>
 #include <stdio.h>
 #include <math.h>
+#include <array>
 
 #include "constants.h"
 #include "findEyeCenter.h"
@@ -21,7 +22,7 @@
 
 
 /** Function Headers */
-void detectAndDisplay(cv::Mat frame);
+std::array<EstimatedEyeInfo, 2> detectAndDisplay(cv::Mat frame);
 void initKalmanFilter(cv::KalmanFilter &KF);
 
 /** Global variables */
@@ -43,13 +44,17 @@ cv::Mat_<float> measurement(2, 1);
 cv::Mat prediction;
 cv::Mat estimated;
 FILE * pFile;
+int counter;
 
 
 /**
  * @function main
  */
 int main(int argc, const char** argv) {
+
 	cv::Mat frame;
+	std::array<EstimatedEyeInfo, 2> eyes;
+	EstimatedEyeInfo estLeftEyeInfo, estRightEyeInfo;
 
 	initKalmanFilter(KF_left);
 	initKalmanFilter(KF_right);
@@ -91,7 +96,29 @@ int main(int argc, const char** argv) {
 
 			// Apply the classifier to the frame
 			if (!frame.empty()) {
-				detectAndDisplay(frame);
+				eyes = detectAndDisplay(frame);
+				estLeftEyeInfo = eyes[0];
+				estRightEyeInfo = eyes[1];
+				if (estRightEyeInfo.closedEye)
+					counter++;
+				else
+					counter = 0;
+
+				if (counter == 10) {
+					float x = estLeftEyeInfo.coordinates.x;
+					float y = estLeftEyeInfo.coordinates.y;
+					if (x > 35)
+						if (y < 30)
+							std::cout << "Prawy górny" << std::endl;
+						else
+							std::cout << "Prawy dolny" << std::endl;
+					else
+						if (y < 30)
+							std::cout << "Lewy górny" << std::endl;
+						else
+							std::cout << "Lewy dolny" << std::endl;
+				}
+
 			}
 			else {
 				printf(" --(!) No captured frame -- Break!");
@@ -118,9 +145,10 @@ int main(int argc, const char** argv) {
 	return 0;
 }
 
-void findEyes(cv::Mat frame_gray, cv::Rect face) {
+std::array<EstimatedEyeInfo, 2> findEyes(cv::Mat frame_gray, cv::Rect face) {
 	cv::Mat faceROI = frame_gray(face);
 	cv::Mat debugFace = faceROI;
+	std::array<EstimatedEyeInfo, 2> eyes;
 
 	if (kSmoothFaceImage) {
 		double sigma = kSmoothFaceFactor * face.width;
@@ -148,26 +176,38 @@ void findEyes(cv::Mat frame_gray, cv::Rect face) {
 	cv::Point leftPupil = leftPupilInfo.coordinates;
 	cv::Point rightPupil = rightPupilInfo.coordinates;
 
+	bool rightEyeOpened = rightPupilInfo.closedEye;
+
 	prediction = KF_left.predict();
 	measurement(0) = (float)leftPupil.x;
 	measurement(1) = (float)leftPupil.y;
 	estimated = KF_left.correct(measurement);
 
-	fprintf(pFile, "%f\t%f\t%f\t%f\t%f\t%f\t%d\t", prediction.at<float>(0), prediction.at<float>(1),
+	cv::Point_<float> estLeftEye(estimated.at<float>(0), estimated.at<float>(1));
+
+	fprintf(pFile, "%f\t%f\t%f\t%f\t%f\t%f\t", prediction.at<float>(0), prediction.at<float>(1),
 		measurement(0), measurement(1), estimated.at<float>(0), estimated.at<float>(1));
 
-	printf("%f\t", estimated.at<float>(1));
+	//printf("%f\t", estimated.at<float>(1));
 
 	prediction = KF_right.predict();
 	measurement(0) = (float)rightPupil.x;
 	measurement(1) = (float)rightPupil.y;
 	estimated = KF_right.correct(measurement);
 
+	cv::Point_<float> estRightEye(estimated.at<float>(0), estimated.at<float>(1));
+	eyes[0] = EstimatedEyeInfo() = { estLeftEye, leftPupilInfo.closedEye };
+	eyes[1] = EstimatedEyeInfo() = { estRightEye, rightPupilInfo.closedEye };
+
 	fprintf(pFile, "%f\t%f\t%f\t%f\t%f\t%f\n", prediction.at<float>(0), prediction.at<float>(1),
 		measurement(0), measurement(1), estimated.at<float>(0), estimated.at<float>(1));
 
+	
+
+	
+
 	//outFile << leftPupil << std::endl;
-	printf("%f\n", estimated.at<float>(1));
+	//printf("%f\n", estimated.at<float>(1));
 
 	//printf("%f\t%f\n", estimated.at<float>(0), estimated.at<float>(1));
 
@@ -227,6 +267,7 @@ void findEyes(cv::Mat frame_gray, cv::Rect face) {
 	//  cv::Rect roi( cv::Point( 0, 0 ), faceROI.size());
 	//  cv::Mat destinationROI = debugImage( roi );
 	//  faceROI.copyTo( destinationROI );
+	return eyes;
 }
 
 
@@ -254,7 +295,7 @@ cv::Mat findSkin(cv::Mat &frame) {
 /**
  * @function detectAndDisplay
  */
-void detectAndDisplay(cv::Mat frame) {
+std::array<EstimatedEyeInfo, 2> detectAndDisplay(cv::Mat frame) {
 	std::vector<cv::Rect> faces;
 	//cv::Mat frame_gray;
 
@@ -274,11 +315,11 @@ void detectAndDisplay(cv::Mat frame) {
 		rectangle(debugImage, faces[i], 1234);
 	}
 
-
 	//-- Show what you got
 	if (faces.size() > 0) {
-		findEyes(frame_gray, faces[0]);
+		return findEyes(frame_gray, faces[0]);
 	}
+	return std::array<EstimatedEyeInfo, 2>();
 }
 
 void initKalmanFilter(cv::KalmanFilter &KF) {
@@ -292,5 +333,9 @@ void initKalmanFilter(cv::KalmanFilter &KF) {
 	setIdentity(KF.processNoiseCov, cv::Scalar::all(1e-4));
 	setIdentity(KF.measurementNoiseCov, cv::Scalar::all(3));
 	setIdentity(KF.errorCovPost, cv::Scalar::all(9));
+}
+
+void callibrate() {
+
 }
 

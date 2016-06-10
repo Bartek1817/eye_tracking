@@ -199,7 +199,7 @@ struct EyeInfo findEyeCenter(cv::Mat face, cv::Rect eye, std::string debugWindow
 		cv::minMaxLoc(out, NULL, &maxVal, NULL, &maxP, mask);
 	}
 	eyeInfo.coordinates = unscalePoint(maxP, eye);
-	eyeInfo.openedEye = eyes.size() == 1 ? true : false;
+	eyeInfo.closedEye = eyes.size() == 1 ? false : true;
 	return eyeInfo;
 }
 
