@@ -14,6 +14,9 @@
 #include "findEyeCenter.h"
 #include "findEyeCorner.h"
 
+#define HORIZONTAL_BORDER 39
+#define VERTICAL_BORDER 31
+
 
 /** Function Headers */
 std::array<EstimatedEyeInfo, 2> detectAndDisplay(cv::Mat frame);
@@ -80,13 +83,13 @@ int main(int argc, const char** argv) {
 				if (counter == 10) {
 					float x = estLeftEyeInfo.coordinates.x;
 					float y = estLeftEyeInfo.coordinates.y;
-					if (x > 53)
-						if (y < 43)
+					if (x > HORIZONTAL_BORDER)
+						if (y < VERTICAL_BORDER)
 							std::cout << "Prawy górny" << std::endl;
 						else
 							std::cout << "Prawy dolny" << std::endl;
 					else
-						if (y < 43)
+						if (y < VERTICAL_BORDER)
 							std::cout << "Lewy górny" << std::endl;
 						else
 							std::cout << "Lewy dolny" << std::endl;
